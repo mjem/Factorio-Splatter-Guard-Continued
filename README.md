@@ -1,6 +1,8 @@
-# Factorio-Splatter-Guard
+# Factorio-Splatter-Guard-Continued
 
-Stops you being splattered by trains.
+This is a continuation of the Splatter Guard mod by muppet9010, adapted for Factorio v2.0.
+
+A mod to stop you from being splattered by trains.
 
 ![Splatter Guard Demo](https://media.giphy.com/media/5t5UYRllMIy0jMugxT/giphy.gif)
 

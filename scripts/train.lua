@@ -11,7 +11,7 @@ end
 ---@param player_surface LuaSurface
 ---@param player_position MapPosition
 function Train.IsATrainNearPlayer(player_surface, player_position)
-    local rawTrainEntitiesArr = Train.GetTrainEntitiesNearPositionAsArray(player_surface, player_position, global.Mod.State.trainSearchSize)
+    local rawTrainEntitiesArr = Train.GetTrainEntitiesNearPositionAsArray(player_surface, player_position, storage.State.trainSearchSize)
     if rawTrainEntitiesArr == nil or #rawTrainEntitiesArr == 0 then
         return false
     end
@@ -19,7 +19,7 @@ function Train.IsATrainNearPlayer(player_surface, player_position)
 
     local playerNearTrackArr =
         player_surface.find_entities_filtered {
-        area = Utils.CalculateBoundingBoxFromPositionAndRange(player_position, global.Mod.State.playerSafeBox),
+        area = Utils.CalculateBoundingBoxFromPositionAndRange(player_position, storage.State.playerSafeBox),
         type = {"straight-rail", "curved-rail"}
     }
 
@@ -73,12 +73,12 @@ function Train.GetTrackForTrainEntityAsArray(trainEntity, naturalOrientation)
     }
     local searchArea = {
         left_top = {
-            x = searchPosition.x - global.Mod.State.trainTrackSearchSize,
-            y = searchPosition.y - global.Mod.State.trainTrackSearchSize
+            x = searchPosition.x - storage.State.trainTrackSearchSize,
+            y = searchPosition.y - storage.State.trainTrackSearchSize
         },
         right_bottom = {
-            x = searchPosition.x + global.Mod.State.trainTrackSearchSize,
-            y = searchPosition.y + global.Mod.State.trainTrackSearchSize
+            x = searchPosition.x + storage.State.trainTrackSearchSize,
+            y = searchPosition.y + storage.State.trainTrackSearchSize
         }
     }
 

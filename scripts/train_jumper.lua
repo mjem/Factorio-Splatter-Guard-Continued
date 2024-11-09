@@ -3,7 +3,7 @@ local Train = require("train")
 local TrainJumper = {}
 
 function TrainJumper.PopulateStateDefaults()
-    local state = global.Mod.State
+    local state = storage.State
     if state.playersJumpedDict == nil then
         state.playersJumpedDict = {}
     end
@@ -34,7 +34,7 @@ function TrainJumper.PlayerManager()
         local player_surface, player_position = player.surface, player.position
         local railsNearPlayer =
             player_surface.count_entities_filtered {
-            area = Utils.CalculateBoundingBoxFromPositionAndRange(player_position, global.Mod.State.playerSafeBox),
+            area = Utils.CalculateBoundingBoxFromPositionAndRange(player_position, storage.State.playerSafeBox),
             type = {"straight-rail", "curved-rail"},
             limit = 1
         }
@@ -46,7 +46,7 @@ function TrainJumper.PlayerManager()
         end
 
         -- Check if a jetpack is in use by the player.
-        if game.active_mods["jetpack"] ~= nil then
+        if script.active_mods["jetpack"] ~= nil then
             local jetpacks = remote.call("jetpack", "get_jetpacks", {surface_index = player.surface.index})
             if jetpacks ~= nil then
                 for _, jetpack in pairs(jetpacks) do
@@ -69,7 +69,7 @@ function TrainJumper.JumpPlayerToFreeSpot(player)
         game.print("ERROR - failed to jump player '" .. player.name .. "' to position(" .. newPosition.x .. ", " .. newPosition.y .. ")")
     end
     player.surface.create_entity {name = "teleported-smoke", position = oldPosition}
-    global.Mod.State.playersJumpedDict[player.index] = game.tick + 60
+    storage.State.playersJumpedDict[player.index] = game.tick + 60
 end
 
 function TrainJumper.FindNewPlayerPosition(surface, startingPosition, searchRange, positionsCheckedDict, characterEntityName)
@@ -96,7 +96,7 @@ function TrainJumper.FindNewPlayerPosition(surface, startingPosition, searchRang
 end
 
 function TrainJumper.CheckJumpPosition(surface, position, characterEntityName)
-    if surface.count_entities_filtered {area = Utils.CalculateBoundingBoxFromPositionAndRange(position, global.Mod.State.playerSafeBox)} > 0 then
+    if surface.count_entities_filtered {area = Utils.CalculateBoundingBoxFromPositionAndRange(position, storage.State.playerSafeBox)} > 0 then
         return false
     end
     if not surface.can_place_entity {name = characterEntityName, position = position} then
@@ -107,7 +107,7 @@ end
 
 ---@param event on_tick
 function TrainJumper.ManageJumpedPlayers(event)
-    for playerIndex, endTick in pairs(global.Mod.State.playersJumpedDict) do
+    for playerIndex, endTick in pairs(storage.State.playersJumpedDict) do
         if endTick >= event.tick then
             local player = game.get_player(playerIndex)
             if player ~= nil then
@@ -115,23 +115,23 @@ function TrainJumper.ManageJumpedPlayers(event)
                 player.walking_state = {walking = false, direction = 1}
             else
                 -- Players disconnected.
-                table.remove(global.Mod.State.playersJumpedDict, playerIndex)
+                table.remove(storage.State.playersJumpedDict, playerIndex)
             end
         else
-            table.remove(global.Mod.State.playersJumpedDict, playerIndex)
+            table.remove(storage.State.playersJumpedDict, playerIndex)
         end
     end
 end
 
 function TrainJumper.SetTrainAvoidEvents()
     --Catch OnLoad being called before ModChanged on mod upgrade and skip it this time
-    if global.Mod == nil or global.Mod.Settings == nil or global.Mod.Settings.trainAvoidMode == nil then
+   if settings.global["train-avoid-mode"] == nil then
         return
     end
-    if global.Mod.Settings.trainAvoidMode == "Preemptive" then
+   if settings.global["train-avoid-mode"].value == "Preemptive" then
         script.on_event(defines.events.on_tick, TrainJumper.Manager)
         script.on_event(defines.events.on_entity_damaged, TrainJumper.EntityDamaged, {{filter = "type", type = "character"}})
-    elseif global.Mod.Settings.trainAvoidMode == "Reactive Only" then
+    elseif settings.global["train-avoid-mode"].value == "Reactive Only" then
         script.on_event(defines.events.on_tick, TrainJumper.ManageJumpedPlayers)
         script.on_event(defines.events.on_entity_damaged, TrainJumper.EntityDamaged, {{filter = "type", type = "character"}})
     else

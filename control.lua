@@ -1,7 +1,6 @@
 local TrainJumper = require("scripts/train_jumper")
 
 local function UpdatedTrainAvoidSetting()
-    global.Mod.Settings.trainAvoidMode = settings.global["train-avoid-mode"].value
     TrainJumper.SetTrainAvoidEvents()
 end
 
@@ -11,28 +10,14 @@ local function UpdateSetting(settingName)
     end
 end
 
-local function CreateGlobals()
-    if global.Mod == nil then
-        global.Mod = {}
-    end
-    if global.Mod.Settings == nil then
-        global.Mod.Settings = {}
-    end
-    if global.Mod.State == nil then
-        global.Mod.State = {}
-    end
-end
-
-local function MigrateGlobals()
-    if global.ModSettings ~= nil then
-        global.Mod.Settings = global.ModSettings
-        global.ModSettings = nil
+local function CreateStorages()
+    if storage.State == nil then
+        storage.State = {}
     end
 end
 
 local function OnStartup()
-    CreateGlobals()
-    MigrateGlobals()
+    CreateStorages()
     TrainJumper.PopulateStateDefaults()
     UpdateSetting(nil)
 end

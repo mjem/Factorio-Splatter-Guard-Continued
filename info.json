@@ -1,13 +1,13 @@
 {
-    "name": "splatter_guard",
-    "version": "20.1.9",
-    "title": "Splatter Guard",
-    "author": "Muppet9010",
-    "contact": "",
-    "homepage": "",
-    "factorio_version": "1.1",
+    "name": "splatter_guard_continued",
+    "version": "21.0.0",
+    "title": "Splatter Guard (continued)",
+    "author": "aotho",
+    "contact": "mike.elson@fastmail.com",
+    "homepage": "https://mods.factorio.com/mod/splatter_guard_continued",
+    "factorio_version": "2.0",
     "dependencies": [
-        "base >= 1.1.0",
+        "base >= 2.0.0",
         "? jetpack"
     ],
     "description": "Stops you being splattered by trains by teleporting you out of the way just before impact"
