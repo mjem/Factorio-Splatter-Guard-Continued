@@ -1,4 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 21.0.2
+Date: 2024-11-15
+  Features:
+  Changes:
+  Bugfixes:
+    - Avoid a clash between "Preemptive" mode and the Factorio 2.0 train management screen
+	  which could teleport a player to the train being viewed
+  Info:
+---------------------------------------------------------------------------------------------------
+Version: 21.0.1
+Date: 2024-11-09
+  Features:
+    - Restored missing thumbnail
+  Changes:
+  Bugfixes:
+  Info:
+---------------------------------------------------------------------------------------------------
 Version: 21.0.0
 Date: 2024-11-09
   Features:

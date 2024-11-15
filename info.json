@@ -1,9 +1,8 @@
 {
     "name": "splatter_guard_continued",
-    "version": "21.0.0",
+    "version": "21.0.2",
     "title": "Splatter Guard (continued)",
     "author": "aotho",
-    "contact": "mike.elson@fastmail.com",
     "homepage": "https://mods.factorio.com/mod/splatter_guard_continued",
     "factorio_version": "2.0",
     "dependencies": [
