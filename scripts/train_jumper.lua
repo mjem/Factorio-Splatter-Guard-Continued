@@ -29,6 +29,12 @@ function TrainJumper.PlayerManager()
             -- Player in vehicle so never needs to jump.
             return
         end
+		if player.opened ~= nil then
+		   -- player has a gui element open. We disable the Preemptive graphical effect
+		   -- as that can be falsely triggered if the user is using the new train overview screen.
+		   -- The damage detection will still kick in and save the player if a train does hit them
+		   return
+		end
 
         -- Check if the player is not near a track or train.
         local player_surface, player_position = player.surface, player.position
